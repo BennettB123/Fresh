@@ -1,21 +1,15 @@
 ﻿namespace Fresh;
 
-public static class TextColorizer
+internal static class TextColorizer
 {
-    public static string Foreground(this string text, ushort r, ushort g, ushort b) =>
-        Foreground(text, new RGBColor(r, g, b));
-
-    public static string Foreground(this string text, RGBColor color)
+    internal static string AddForeground(this string text, RGBColor color)
     {
         return BuildForegroundRgbCommand(color) +
             text +
             EndColorCommand();
     }
 
-    public static string Background(this string text, ushort r, ushort g, ushort b) => 
-        Background(text, new RGBColor(r, g, b));
-
-    public static string Background(this string text, RGBColor color)
+    internal static string AddBackground(this string text, RGBColor color)
     {
         return BuildBackgroundRgbCommand(color) +
             text +

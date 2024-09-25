@@ -1,6 +1,6 @@
 namespace Fresh;
 
-public static class TextBorderizer
+internal static class TextBorderizer
 {
     private const char _singleVertical = '\u2502';
     private const char _singleHorizontal = '\u2500';
@@ -20,14 +20,17 @@ public static class TextBorderizer
     private const char _doubleBottomRight = '\u255D';
 
 
-    public static string SquareBorder(this string text) =>
-        AddBorder(text, _squareTopLeft, _squareTopRight, _squareBottomLeft, _squareBottomRight, _singleVertical, _singleHorizontal);
+    internal static string SquareBorder(this string text) =>
+        AddBorder(text, _squareTopLeft, _squareTopRight, _squareBottomLeft,
+            _squareBottomRight, _singleVertical, _singleHorizontal);
 
-    public static string RoundBorder(this string text) =>
-        AddBorder(text, _roundTopLeft, _roundTopRight, _roundBottomLeft, _roundBottomRight, _singleVertical, _singleHorizontal);
+    internal static string RoundBorder(this string text) =>
+        AddBorder(text, _roundTopLeft, _roundTopRight, _roundBottomLeft,
+            _roundBottomRight, _singleVertical, _singleHorizontal);
 
-    public static string DoubleBorder(this string text) =>
-        AddBorder(text, _doubleTopLeft, _doubleTopRight, _doubleBottomLeft, _doubleBottomRight, _doubleVertical, _doubleHorizontal);
+    internal static string DoubleBorder(this string text) =>
+        AddBorder(text, _doubleTopLeft, _doubleTopRight, _doubleBottomLeft,
+            _doubleBottomRight, _doubleVertical, _doubleHorizontal);
 
 
     private static string AddBorder(

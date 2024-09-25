@@ -6,12 +6,18 @@ var blue = new RGBColor(0, 0, 255);
 var yellow = new RGBColor(255, 255, 0);
 
 // Testing colored text
-Console.WriteLine("Red".Foreground(red));
-Console.WriteLine("Green".Background(green));
-Console.WriteLine("Red text, blue background".Foreground(red).Background(blue));
-
+Console.WriteLine(new Style().Foreground(red).Render("red foreground"));
+Console.WriteLine(new Style().Background(green).Render("green background"));
+Console.WriteLine(new Style().Foreground(red).Background(blue).Render("red text, blue background"));
 
 // Testing bordered text
-Console.WriteLine("Square Border".Foreground(yellow).SquareBorder());
-Console.WriteLine("Round Border".Foreground(yellow).RoundBorder());
-Console.WriteLine("Double Border".Foreground(yellow).DoubleBorder());
+Console.WriteLine(new Style().Border(BorderStyle.SquareBorder).Render("Square Border"));
+Console.WriteLine(new Style().Border(BorderStyle.RoundBorder).Render("Round Border"));
+Console.WriteLine(new Style().Border(BorderStyle.DoubleBorder).Render("Double Border"));
+
+// Testing Everything
+var myStyle = new Style()
+    .Foreground(yellow)
+    .Background(green)
+    .Border(BorderStyle.RoundBorder);
+Console.WriteLine(myStyle.Render("this is my style"));
