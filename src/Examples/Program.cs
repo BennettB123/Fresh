@@ -15,9 +15,27 @@ Console.WriteLine(new Style().Border(BorderStyle.SquareBorder).Render("Square Bo
 Console.WriteLine(new Style().Border(BorderStyle.RoundBorder).Render("Round Border"));
 Console.WriteLine(new Style().Border(BorderStyle.DoubleBorder).Render("Double Border"));
 
-// Testing Everything
+// Testing colored borders
+Console.WriteLine(new Style()
+    .Border(BorderStyle.RoundBorder)
+    .BorderForeground(red)
+    .Render("Red Foreground Round border"));
+Console.WriteLine(new Style()
+    .Border(BorderStyle.SquareBorder)
+    .BorderBackground(red)
+    .Render("Red Background Square border"));
+Console.WriteLine(new Style()
+    .Border(BorderStyle.DoubleBorder)
+    .BorderForeground(red)
+    .BorderBackground(yellow)
+    .Render("Red Foreground Yellow Background Double border"));
+
+
+// Testing Everything Together
 var myStyle = new Style()
     .Foreground(yellow)
     .Background(green)
-    .Border(BorderStyle.RoundBorder);
-Console.WriteLine(myStyle.Render("this is my style"));
+    .Border(BorderStyle.RoundBorder)
+    .BorderForeground(yellow)
+    .BorderBackground(green);
+Console.WriteLine(myStyle.Render("Testing Everything Together"));

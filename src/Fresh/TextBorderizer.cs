@@ -20,17 +20,32 @@ internal static class TextBorderizer
     private const char _doubleBottomRight = '\u255D';
 
 
-    internal static string SquareBorder(this string text) =>
-        AddBorder(text, _squareTopLeft, _squareTopRight, _squareBottomLeft,
-            _squareBottomRight, _singleVertical, _singleHorizontal);
+    internal static string SquareBorder(this string text,
+        bool addForeground, bool addBackground,
+        RGBColor foreground = default, RGBColor background = default)
+    {
+        return AddBorder(text, _squareTopLeft, _squareTopRight, _squareBottomLeft,
+            _squareBottomRight, _singleVertical, _singleHorizontal,
+            addForeground, addBackground, foreground, background);
+    }
 
-    internal static string RoundBorder(this string text) =>
-        AddBorder(text, _roundTopLeft, _roundTopRight, _roundBottomLeft,
-            _roundBottomRight, _singleVertical, _singleHorizontal);
+    internal static string RoundBorder(this string text,
+        bool addForeground, bool addBackground,
+        RGBColor foreground = default, RGBColor background = default)
+    {
+        return AddBorder(text, _roundTopLeft, _roundTopRight, _roundBottomLeft,
+            _roundBottomRight, _singleVertical, _singleHorizontal,
+            addForeground, addBackground, foreground, background);
+    }
 
-    internal static string DoubleBorder(this string text) =>
-        AddBorder(text, _doubleTopLeft, _doubleTopRight, _doubleBottomLeft,
-            _doubleBottomRight, _doubleVertical, _doubleHorizontal);
+    internal static string DoubleBorder(this string text,
+        bool addForeground, bool addBackground,
+        RGBColor foreground = default, RGBColor background = default)
+    {
+        return AddBorder(text, _doubleTopLeft, _doubleTopRight, _doubleBottomLeft,
+            _doubleBottomRight, _doubleVertical, _doubleHorizontal,
+            addForeground, addBackground, foreground, background);
+    }
 
 
     private static string AddBorder(
@@ -40,14 +55,39 @@ internal static class TextBorderizer
         char bottomLeft,
         char bottomRight,
         char vertical,
-        char horizontal)
+        char horizontal,
+        bool addForeground,
+        bool addBackground,
+        RGBColor foreground,
+        RGBColor background)
     {
-        var textLength = EscapeConstants.FilterAnsiEscapes.Replace(text, "").Length;
+        var textLength = EscapeConstants.RemoveAnsiEscapes(text).Length;
 
-        var str = topLeft.ToString() + new string(horizontal, textLength) + topRight + Environment.NewLine;
-        str += vertical + text + vertical + Environment.NewLine;
-        str += bottomLeft + new string(horizontal, textLength) + bottomRight;
+        var topLine = topLeft.ToString() +
+            new string(horizontal, textLength) +
+            topRight;
 
-        return str;
+        var bottomLine = bottomLeft.ToString() +
+            new string(horizontal, textLength) +
+            bottomRight;
+
+        var verticalStr = vertical.ToString();
+
+        if (addForeground)
+        {
+            topLine = topLine.AddForeground(foreground);
+            bottomLine = bottomLine.AddForeground(foreground);
+            verticalStr = verticalStr.AddForeground(foreground);
+        }
+        if (addBackground)
+        {
+            topLine = topLine.AddBackground(background);
+            bottomLine = bottomLine.AddBackground(background);
+            verticalStr = verticalStr.AddBackground(background);
+        }
+
+        return topLine + Environment.NewLine +
+            verticalStr + text + verticalStr + Environment.NewLine +
+            bottomLine;
     }
 }
