@@ -4,8 +4,8 @@ namespace Fresh;
 
 internal static partial class EscapeConstants
 {
-    internal const string Start = "\x1b[";
-    internal const string GraphicsFunction = "m";
+    internal const string ANSIStart = "\x1b[";
+    internal const string ANSIGraphicsFunction = "m";
 
     private static Regex FilterAnsiEscapes = AnsiFilterGeneratedRegex();
 
