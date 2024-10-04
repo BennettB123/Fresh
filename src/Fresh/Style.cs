@@ -2,21 +2,10 @@ namespace Fresh;
 
 public class Style
 {
-    private bool _foregroundSet;
-    private bool _backgroundSet;
+    private StyleSettings _styleSettings;
     private bool _borderStyleSet;
     private bool _borderForegroundSet;
     private bool _borderBackgroundSet;
-    private bool _boldSet;
-    private bool _underlineSet;
-    private bool _italicSet;
-    private bool _faintSet;
-    private bool _blinkSet;
-    private bool _strikethroughSet;
-    private bool _reverseSet;
-
-    private RGBColor _foreground;
-    private RGBColor _background;
     private BorderStyle _borderStyle;
     private RGBColor _borderForeground;
     private RGBColor _borderBackground;
@@ -25,15 +14,15 @@ public class Style
 
     public Style Foreground(RGBColor color)
     {
-        _foreground = color;
-        _foregroundSet = true;
+        _styleSettings.ForegroundColor = color;
+        _styleSettings.ForegroundSet = true;
         return this;
     }
 
     public Style Background(RGBColor color)
     {
-        _background = color;
-        _backgroundSet = true;
+        _styleSettings.BackgroundColor = color;
+        _styleSettings.BackgroundSet = true;
         return this;
     }
 
@@ -60,73 +49,48 @@ public class Style
 
     public Style Bold(bool enabled)
     {
-        _boldSet = enabled;
+        _styleSettings.BoldSet = enabled;
         return this;
     }
 
     public Style Faint(bool enabled)
     {
-        _faintSet = enabled;
+        _styleSettings.FaintSet = enabled;
         return this;
     }
 
     public Style Italic(bool enabled)
     {
-        _italicSet = enabled;
+        _styleSettings.ItalicSet = enabled;
         return this;
     }
     public Style Underline(bool enabled)
     {
-        _underlineSet = enabled;
+        _styleSettings.UnderlineSet = enabled;
         return this;
     }
 
     public Style Blink(bool enabled)
     {
-        _blinkSet = enabled;
+        _styleSettings.BlinkSet = enabled;
         return this;
     }
 
     public Style Reverse(bool enabled)
     {
-        _reverseSet = enabled;
+        _styleSettings.ReverseSet = enabled;
         return this;
     }
 
     public Style Strikethrough(bool enabled)
     {
-        _strikethroughSet = enabled;
+        _styleSettings.StrikethroughSet = enabled;
         return this;
     }
 
     public string Render(string text)
     {
-        if (_foregroundSet)
-            text = text.AddForeground(_foreground);
-
-        if (_backgroundSet)
-            text = text.AddBackground(_background);
-
-        if (_boldSet)
-            text = text.AddBold();
-
-        if (_faintSet)
-            text = text.AddFaint();
-
-        if (_italicSet)
-            text = text.AddItalic();
-
-        if (_underlineSet)
-            text = text.AddUnderline();
-
-        if (_blinkSet)
-            text = text.AddBlink();
-
-        if (_reverseSet)
-            text = text.AddReverse();
-
-        if (_strikethroughSet)
-            text = text.AddStrikethrough();
+        text = TextCustomizer.ApplyStyle(text, _styleSettings);
 
         if (_borderStyleSet)
             text = _borderStyle switch

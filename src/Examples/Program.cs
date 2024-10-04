@@ -5,6 +5,9 @@ var green = new RGBColor(0, 255, 0);
 var blue = new RGBColor(100, 150, 255);
 var yellow = new RGBColor(255, 255, 0);
 
+// Testing empty style
+Console.WriteLine(new Style().Render("No style"));
+
 // Testing colored text
 Console.WriteLine(new Style().Foreground(red).Render("red foreground"));
 Console.WriteLine(new Style().Background(green).Render("green background"));
