@@ -9,7 +9,7 @@ var yellow = new RGBColor(255, 255, 0);
 Console.WriteLine(new Style().Render("No style"));
 
 // Testing colored text
-Console.WriteLine(new Style().Foreground(red).Render("red foreground"));
+Console.WriteLine(new Style().Foreground(red).Render("red text"));
 Console.WriteLine(new Style().Background(green).Render("green background"));
 Console.WriteLine(new Style().Foreground(red).Background(blue).Render("red text, blue background"));
 

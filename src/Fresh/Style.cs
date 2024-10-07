@@ -3,14 +3,16 @@ namespace Fresh;
 public class Style
 {
     private StyleSettings _styleSettings;
-    private bool _borderStyleSet;
-    private bool _borderForegroundSet;
-    private bool _borderBackgroundSet;
-    private BorderStyle _borderStyle;
-    private RGBColor _borderForeground;
-    private RGBColor _borderBackground;
+    private BorderSettings _borderSettings;
 
     public Style() { }
+
+    public Style(Style s)
+    {
+        _styleSettings = s._styleSettings;
+        _borderSettings = s._borderSettings;
+    }
+
 
     public Style Foreground(RGBColor color)
     {
@@ -28,22 +30,29 @@ public class Style
 
     public Style Border(BorderStyle style)
     {
-        _borderStyle = style;
-        _borderStyleSet = true;
+        _borderSettings.Style = style;
+        _borderSettings.StyleSet = true;
+        _borderSettings.Characters = style switch
+        {
+                BorderStyle.SquareBorder => DefaultBorderCharacters.Square,
+                BorderStyle.RoundBorder => DefaultBorderCharacters.Round,
+                BorderStyle.DoubleBorder => DefaultBorderCharacters.Double,
+                _ => DefaultBorderCharacters.Square,
+        };
         return this;
     }
 
     public Style BorderForeground(RGBColor color)
     {
-        _borderForeground = color;
-        _borderForegroundSet = true;
+        _borderSettings.Foreground = color;
+        _borderSettings.ForegroundSet = true;
         return this;
     }
 
     public Style BorderBackground(RGBColor color)
     {
-        _borderBackground = color;
-        _borderBackgroundSet = true;
+        _borderSettings.Background = color;
+        _borderSettings.BackgroundSet = true;
         return this;
     }
 
@@ -91,15 +100,7 @@ public class Style
     public string Render(string text)
     {
         text = TextCustomizer.ApplyStyle(text, _styleSettings);
-
-        if (_borderStyleSet)
-            text = _borderStyle switch
-            {
-                BorderStyle.SquareBorder => text.SquareBorder(_borderForegroundSet, _borderBackgroundSet, _borderForeground, _borderBackground),
-                BorderStyle.RoundBorder => text.RoundBorder(_borderForegroundSet, _borderBackgroundSet, _borderForeground, _borderBackground),
-                BorderStyle.DoubleBorder => text.DoubleBorder(_borderForegroundSet, _borderBackgroundSet, _borderForeground, _borderBackground),
-                _ => text,
-            };
+        text = TextBorderizer.ApplyBorder(text, _borderSettings);
 
         return text;
     }
